@@ -8,6 +8,7 @@ var templateSolicitacao = '<div class="row">' +
     '</div>';
 
     // Inicio - GI
+
 var templateItem = '<div class="row">' +
     '<div class="col-12> ID da máquina: {{IDMAQ}} </div>' +
     '<div class="col-12> Itens solicitados: </div>' +
@@ -17,13 +18,14 @@ var templateItem = '<div class="row">' +
     '<div class="col-12> Transferência: {{TRANSF}}</div>' +
     '<div class="col-12> Valor: R$ {{VALORMAQ}}</div>' +
     '<div class="col-12> Softwares solicitados: </div>' +
-    '<div class="row"> '+
+    '</div>' +
+    '       <div class="row"> '+
                '<div class="col-6"> {{SOFTWARE}} </div>'+
                '<div class="col-4"> {{FORNECEDOR}} </div>'+
-               '<div class="col-2"> {{VALOR}} </div>' +
-            '</div>';
-    '</div>'
+               '<div class="col-2"> {{VALOR}} </div>' +     
+    '</div>';
  // Fim - GI
+
 function recuperaDetalhe() {
 
     var parametro = window.location.search;
@@ -46,21 +48,21 @@ function recuperaDetalhe() {
     usuario = JSON.parse(userSTR);
 
 
-    /* inicio das alterações
+    // inicio das alterações
     
     var idmaquina  = usuario.pedidos[id - 1].maquina.id;
     var process = usuario.pedidos[id - 1].maquina.processador;
     var memo  = usuario.pedidos[id - 1].maquina.memoriaGB;
     var capacid = usuario.pedidos[id - 1].maquina.capacidadeHD;
     var transfe  = usuario.pedidos[id - 1].maquina.transferencia;
-    var valor = usuario.pedidos[id - 1].maquina.valor;
+    var valor = usuario.pedidos[id - 1].maquina.valor; 
 
     console.log(idmaquina +" deu certo");
     console.log(process +" deu certo");
     console.log(memo +" deu certo");
     console.log(capacid +" deu certo");
     console.log(transfe +" deu certo");
-    console.log(valor +" deu certo");
+    console.log(valor +" deu certo"); 
 
     var listaItens= usuario.pedidos[id - 1].itensSolicitacao;
 
@@ -71,7 +73,7 @@ function recuperaDetalhe() {
         console.log(listaItens[i].software.valor);
     }
 
-    fim das alterções */ 
+    // fim das alterções 
 
 
     document.getElementById("foto").innerHTML = templateFoto.replace("{{IMAGEMFOTO}}", usuario.linkFoto);
@@ -80,7 +82,7 @@ function recuperaDetalhe() {
         .replace("{{SETOR}}", usuario.setor)
         .replace("{{TELEFONE}}", usuario.telefone);
 
-// Inicio - GI
+    // Inicio - GI
 
     var listaItens= usuario.pedidos[id - 1].itensSolicitacao;
     var todosPedidos = "";
@@ -90,20 +92,20 @@ function recuperaDetalhe() {
 
     todosPedidos = todosPedidos + templateSolicitacao.replace("{{DATA}}", usuario.pedidos[id - 1].data)
         .replace("{{OBSERVACOES}}", usuario.pedidos[id - 1].observacoes)
-        .replace("{{NUM}}", usuario.pedidos[id - 1].numSolicitacao)
+        .replace("{{NUM}}", usuario.pedidos[id - 1].numSolicitacao);
 
     todosItens = todosItens + templateItem.replace("{{IDMAQ}}", usuario.pedidos[id - 1].maquina.id)
-        .replace("{{NUMPROC}}",usuario.pedidos[id - 1].maquina.processador)
-        .replace("{{MEMO}}",usuario.pedidos[id - 1].maquina.memoriaGB)
-        .replace("{{CAPHD}}",usuario.pedidos[id - 1].maquina.capacidadeHD)
-        .replace("{{TRANSF}}",usuario.pedidos[id - 1].maquina.transferencia)
-        .replace("{{VALORMAQ}}",usuario.pedidos[id - 1].maquina.valor)
-
-        for (i=0; i<listaItens.length; i++){
+        .replace("{{NUMPROC}}", usuario.pedidos[id - 1].maquina.processador)
+        .replace("{{MEMO}}", usuario.pedidos[id - 1].maquina.memoriaGB)
+        .replace("{{CAPHD}}", usuario.pedidos[id - 1].maquina.capacidadeHD)
+        .replace("{{TRANSF}}", usuario.pedidos[id - 1].maquina.transferencia)
+        .replace("{{VALORMAQ}}", usuario.pedidos[id - 1].maquina.valor);
+    
+        for (i=0; i<= listaItens.length; i++){
             todosSoftware = todosSoftware + 
-                    template.replace("{{SOFTWARE}}", listaItens[i].nome)
-                            .replace("{{FORNECEDOR}}",listaItens[i].fornecedor)
-                            .replace("{{VALOR}}", "RS$ "+ listaItens[i].valor.toFixed(2));
+                    templateItem.replace("{{SOFTWARE}}", listaItens[i].software.nome)
+                                .replace("{{FORNECEDOR}}", listaItens[i].software.fornecedor)
+                                .replace("{{VALOR}}", "R$ "+ listaItens[i].software.valor);
         }    
 
     completo = todosPedidos + todosItens + todosSoftware
@@ -112,7 +114,6 @@ function recuperaDetalhe() {
 }
 
 // Fim - GI
-
 
 function logout() {
     localStorage.removeItem("VMuser");
